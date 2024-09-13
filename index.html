@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BMI calculator</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body style="background-color: #212121;display: flex;flex-direction: column;color: white; align-items: center;">
+    <form>
+        <div style="display: flex;justify-content: space-between;flex-direction: column;">
+            <h1>BMI(Body Mass Index)</h1>
+            <p><span>Height in cm: </span><input id="height" type="text"></p>
+            <p><span>Weight in kg: </span><input id="weight" type="text"></p>
+            <p> <span> <button type="submit">Calculate</button></span></p>
+            <div id="results"></div>
+            <div id="weightReason">
+
+                <p style="color: orange;">Under Weight: Less than 18.6</p>
+                <p style="color: greenyellow;">Normal Weight: Between 18.6 and 24.9</p>
+                <p style="color: red;">Overweight: Greater than 24.9</p>
+            </div>
+        </div>
+    </form>
+</body>
+<script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const height = parseFloat(document.querySelector('#height').value);
+        const weight = parseFloat(document.querySelector('#weight').value);
+        const results = document.querySelector('#results');
+
+        if (height <= 0 || isNaN(height)) {
+            results.innerHTML = `Please enter a valid height value: ${height}`;
+        } else if (weight <= 0 || isNaN(weight)) {
+            results.innerHTML = `Please enter a valid weight value: ${weight}`;
+        } else {
+            const bmi = (weight / ((height * height) / 10000)).toFixed(2);
+            let weighted = 0;
+            if (bmi < 18.6) {
+                weighted = 'Under Weight';
+            } else if (bmi >= 18.6 && bmi <= 24.9) {
+                weighted = 'Normal weight';
+            } else {
+                weighted = 'Over weight';
+            }
+            results.innerHTML = `Your BMI is: ${bmi}. You are ${weighted}`;
+            if (weighted === 'Under weight') {
+                let fontColor = 'orange';
+                results.style.color = fontColor;
+            } else if (weighted === 'Normal weight') {
+                let fontColor = 'greenyellow';
+                results.style.color = fontColor;
+            } else {
+                let fontColor = 'red';
+                results.style.color = fontColor;
+            }
+        }
+    });
+</script>
+
+</html>
